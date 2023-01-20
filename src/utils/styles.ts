@@ -21,5 +21,11 @@ export const GLOBAL_STYLES = StyleSheet.create({
   btnText: {
     color: "#fff",
     fontWeight: "600",
+  },
+  btn: {
+    display: "flex",
+    alignItems: "center",
+    justifyContent: "center",
+    flexDirection: "row",
   }
 })

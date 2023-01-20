@@ -6,17 +6,23 @@ import { useNavigation } from '@react-navigation/native';
 import { IRootStackParamList } from '../@types/common';
 import { NativeStackNavigationProp } from '@react-navigation/native-stack';
 import { BLUE } from '../utils/colors';
+import { getObjectData } from '../utils/store';
 
 interface SplashScreenProps { 
 }
 
 const SplashScreen: React.FC<SplashScreenProps> = () => {
-  const { navigate } = useNavigation<NativeStackNavigationProp<IRootStackParamList, 'Home'>>()
+  const { replace } = useNavigation<NativeStackNavigationProp<IRootStackParamList, 'Home'>>()
+
+  const getPrevUser = async () => {
+    const prevUser = await getObjectData("PREV_USER")
+    if(!prevUser) return replace("Home")
+
+    return replace("Election")
+  }
 
   useEffect(() => {
-    setTimeout(() => {
-      navigate("Home")
-    }, 3000)
+    getPrevUser()
   }, [])
   
   return (

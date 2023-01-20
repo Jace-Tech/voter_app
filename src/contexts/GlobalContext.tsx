@@ -1,4 +1,5 @@
 import React, { createContext, ReactNode, useContext } from "react";
+import ToastContextProvider from "./ToastContext";
 import UserContextProvider from "./UserContext";
 
 interface GlobalContextProps { }
@@ -11,9 +12,11 @@ interface GlobalContextProviderProps {
 const GlobalContextProvider: React.FC<GlobalContextProviderProps> = ({ children }) => {
   return (
     <GlobalContext.Provider value={{}}>
-      <UserContextProvider>
-        {children}
-      </UserContextProvider>
+      <ToastContextProvider>
+        <UserContextProvider>
+          {children}
+        </UserContextProvider>
+      </ToastContextProvider>
     </GlobalContext.Provider>
   )
 }

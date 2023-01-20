@@ -1,6 +1,5 @@
 import { View, Text, StyleSheet, Pressable, ImageBackground, ImageURISource } from 'react-native'
 import React from 'react'
-import { LinearGradient } from 'expo-linear-gradient'
 import Icon  from "react-native-vector-icons/Octicons"
 import { BLACK, BLUE } from '../utils/colors';
 
@@ -61,12 +60,14 @@ const styles = StyleSheet.create({
     paddingVertical: 20,
     backgroundColor: BLUE,
     transform: [
-      { rotate: "-40deg"}
+      { rotate: "-43deg"}
     ]
   },
   cardTitle: {
     fontSize: 26,
-    textTransform: "capitalize",
+    textTransform: "uppercase",
+    letterSpacing: 2,
+    fontWeight: "900",
     color: "#fff"
   },
   overlay: {

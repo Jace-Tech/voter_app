@@ -17,8 +17,8 @@ interface CategoryScreenProps { }
 
 const CategoryScreen: React.FC<CategoryScreenProps> = () => {
   const [chosenType, setChosenType] = useState<string | null>()
-  const { setCurrentStore, handleSignUp, currentStore } = useUserContext()
-  const { navigate } = useNavigation<NativeStackNavigationProp<IRootStackParamList, 'Category'>>()
+  const { handleSignUp, currentStore } = useUserContext()
+  const { reset } = useNavigation<NativeStackNavigationProp<IRootStackParamList, 'Category'>>()
   const { isOpen: isLoading, open: openLoading, close: closeLoading} = useBoolean(false)
   const types = [
     {
@@ -27,24 +27,26 @@ const CategoryScreen: React.FC<CategoryScreenProps> = () => {
     },
     {
       category: "candidate",
-      image: require("../../assets/voter.jpg") 
+      image: require("../../assets/can.jpg") 
     },
   ]
 
   const handleFinishUp = async () => {
     if(!chosenType) return
     openLoading()
-    setCurrentStore((prev: any) => ({...prev, isCandidate: chosenType === "voter" ? false : true}))
     // Do the registration
-    const result = await handleSignUp(currentStore)
+    const data = {...currentStore, isCandidate: chosenType === "voter" ? false : true}
+    const result = await handleSignUp(data)
     if(!result) {
-      Alert.alert("Something went wrong", "Please try again later.")
       closeLoading()
       return
     }
     closeLoading()
-    Alert.alert("Registration successful")
-    navigate("Election")
+    
+    reset({
+      index: 0,
+      routes: [{name: 'Election'}],
+    });
   }
 
   return (

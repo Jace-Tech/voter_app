@@ -1,1 +1,1 @@
-export const REGISTER_ENDPOINT = "http://localhost:5000/auth/sign-up"
+export const REGISTER_ENDPOINT = "https://chatbot-api-nusx.onrender.com/auth/sign-up"

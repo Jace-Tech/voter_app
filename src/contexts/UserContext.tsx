@@ -1,6 +1,9 @@
 import React, { createContext, ReactNode, useContext, useEffect, useState } from "react";
 import { IUser } from "../@types/common";
-import { registerUser } from "../api/auth";
+import { registerUser, registerUserAlt, testing } from "../api/auth";
+import { storeObjectData } from "../utils/store";
+import { useToastContext } from "./ToastContext";
+
 
 interface UserContextProps {
   user: IUser | null
@@ -8,42 +11,45 @@ interface UserContextProps {
   setCurrentStore: (store: any) => void;
   currentStore: any;
 }
-const UserContext = createContext({} as UserContextProps); 
+const UserContext = createContext({} as UserContextProps);
 
 interface UserContextProviderProps {
   children: ReactNode;
-} 
+}
 
-const UserContextProvider: React.FC<UserContextProviderProps> = ({ children }) => { 
+const UserContextProvider: React.FC<UserContextProviderProps> = ({ children }) => {
   const [user, setUser] = useState<IUser | null>(null)
   const [currentStore, setCurrentStore] = useState(null)
+  const { showToast } = useToastContext()
 
   const handleSignUp = async (data: any) => {
     const result = await registerUser(data)
-    console.log(JSON.stringify({result}, null, 4))
-    if(!result?.success) {
-      alert(result.message)
+    console.log(JSON.stringify({ result }, null, 4))
+    if (!result?.success) {
+      showToast("error", result?.message)
       return false
     }
-    alert(result.message)
+    // Clear DB
+    setCurrentStore(null)
+    // Set user
+    setUser(result?.data)
+    // Add data to store
+    showToast("success", result?.message)
+    await storeObjectData("PREV_USER", result?.data)
     return true
   }
 
-  useEffect(() => {
-    console.log(JSON.stringify(currentStore, null, 4))
-  }, [currentStore])
-
-  return ( 
-    <UserContext.Provider 
+  return (
+    <UserContext.Provider
       value={{
         handleSignUp,
         setCurrentStore,
         currentStore,
         user
       }}
-    > 
-      {children} 
-    </UserContext.Provider> 
+    >
+      {children}
+    </UserContext.Provider>
   )
 }
 

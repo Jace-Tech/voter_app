@@ -8,6 +8,7 @@ import HomeScreen from './src/screens/HomeScreen';
 import GlobalContextProvider from './src/contexts/GlobalContext';
 import CategoryScreen from './src/screens/CategoryScreen';
 import ElectionScreen from './src/screens/ElectionScreen';
+import Toast from "react-native-toast-message"
 
 export default function App() {
   const { Navigator, Screen } = createNativeStackNavigator<IRootStackParamList>()

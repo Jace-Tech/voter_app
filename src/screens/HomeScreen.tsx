@@ -1,6 +1,5 @@
-import { View, Text, StyleSheet, SafeAreaView, TextInput, Pressable, Image } from 'react-native'
+import { View, Text, StyleSheet, SafeAreaView, Pressable, Image } from 'react-native'
 import React from 'react'
-import { DEFAULT_PADDING } from '../utils/constants'
 import { GLOBAL_STYLES } from '../utils/styles'
 import { ASHY, BLACK, GRAY, RED } from '../utils/colors'
 import Icon from "react-native-vector-icons/Entypo"
@@ -12,10 +11,10 @@ import CustomButton from '../components/CustomButton'
 import { useNavigation } from '@react-navigation/native'
 import { IRootStackParamList } from '../@types/common'
 import { NativeStackNavigationProp } from '@react-navigation/native-stack'
+import { useToastContext } from '../contexts/ToastContext'
 
 
 interface HomeScreenProps { 
-  navigation: any
 }
 
 type FormData = {
@@ -24,10 +23,10 @@ type FormData = {
   password: string
 }
 
-const HomeScreen: React.FC<HomeScreenProps> = ({ navigation }) => {
+const HomeScreen: React.FC<HomeScreenProps> = () => {
   const { isOpen, toggleIsOpen } = useBoolean(false)
   const { setCurrentStore } = useUserContext()
-  // const { navigate } = useNavigation<NativeStackNavigationProp<IRootStackParamList, 'Home'>>()
+  const { navigate } = useNavigation<NativeStackNavigationProp<IRootStackParamList, 'Home'>>()
 
   const { control, trigger, getValues } = useForm<FormData>({ 
     mode: "onBlur",
@@ -39,10 +38,9 @@ const HomeScreen: React.FC<HomeScreenProps> = ({ navigation }) => {
   })
 
   const handleRegisterClick = async () => {
-    console.clear()
     if(! await trigger()) return
     setCurrentStore(getValues())
-    navigation.replace('Category')
+    navigate('Category')
   }
 
   return (
